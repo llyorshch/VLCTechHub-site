@@ -5,9 +5,17 @@ on:
     branches:
       - main
 
+permissions:
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
 jobs:
-  refresh:
-    name: Refresh site
+  build:
+    name: Build site
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
@@ -21,9 +29,19 @@ jobs:
         run: npm ci
       - name: Build site
         run: npm run build
-      - name: Publish site
-        uses: JamesIves/github-pages-deploy-action@v4
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          branch: gh-pages
-          folder: dist
-          single-commit: true
+          path: dist
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
