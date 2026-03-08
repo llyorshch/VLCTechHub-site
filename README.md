@@ -10,7 +10,7 @@ This repository is the website https://vlctechhub.org, built with the static gen
 
 ## 🚀 How to build this site
 
-Please refer to the section [How to build this site](https://github.com/VLCTechHub/VLCTechHub-site/blob/master/CONTRIBUTING.md#-building-the-website) in the colaboration guide.
+Please refer to the section [How to build this site](CONTRIBUTING.md#-building-the-website) in the colaboration guide.
 
 ## 🤝 How to contribute
 

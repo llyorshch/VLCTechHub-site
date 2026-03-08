@@ -1,11 +1,9 @@
-FROM node:16-alpine
-
-ARG NODE_ENV
+FROM node:22-alpine
 
 WORKDIR /app
 
-COPY . /app
-
-ENV NODE_ENV $NODE_ENV
-
+COPY package.json yarn.lock* ./
 RUN yarn install
+
+COPY . .
+RUN yarn build
