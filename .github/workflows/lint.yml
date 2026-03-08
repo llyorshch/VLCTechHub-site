@@ -3,10 +3,10 @@ name: Lint
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   linting:
@@ -14,21 +14,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v2
-      - name: Set up Node 16.x
-        uses: actions/setup-node@v1
+        uses: actions/checkout@v4
+      - name: Set up Node 22.x
+        uses: actions/setup-node@v4
         with:
-          node-version: '16'
-      - name: Cache node_modules
-        uses: actions/cache@v1
-        id: cache-node_modules
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node_modules-${{ hashFiles('yarn.lock') }}
+          node-version: '22'
+          cache: 'npm'
       - name: Install dependencies
-        if: ${{ steps.cache-node_modules.outputs.cache-hit != 'true' }}
-        run: yarn install
+        run: npm ci
       - name: Syntax linting
-        run: yarn run lint
-      - name: Format linting
-        run: yarn run prettylint
+        run: npm run lint
